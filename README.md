@@ -16,7 +16,8 @@ https://github.com/tomosterlund/qalendar
 
 For original documentation and demo, see: https://tomosterlund.github.io/qalendar/
 
-Dark Or Light Mode can be defined in config
+## Changes Docs
+* Dark Or Light Mode can be defined in config
 Otherwise will be used OS theme mode
 
 ```js
@@ -28,9 +29,9 @@ config: {
 ```
 
 ## Changes
-Days in DatePicker what have events has class .is_active and style Bold.
+* Days in DatePicker what have events has class .is_active and style Bold.
 
-
+* Style mode moved to Config
 
 ## Contact
 
