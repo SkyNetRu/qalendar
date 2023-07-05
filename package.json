@@ -1,11 +1,14 @@
 {
-  "name": "@SkyNetRu/qalendar",
+  "name": "@skynetru/qalendar",
   "description": "Event calendar and date picker for Vue 3",
   "version": "3.4.0",
   "homepage": "https://tomosterlund.github.io/qalendar/",
   "repository": {
     "type": "git",
     "url": "https://github.com/SkyNetRu/qalendar"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "bugs": {
     "url": "https://github.com/SkyNetRu/qalendar/issues"
@@ -25,7 +28,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build && tsc --emitDeclarationOnly && rm -rf dist/cypress",
+    "build": "vue-tsc --noEmit && vite build && tsc --emitDeclarationOnly",
     "preview": "vite preview --port 5050",
     "prepare": "npm run build",
     "test:unit": "vitest --environment jsdom",
