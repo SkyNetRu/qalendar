@@ -162,7 +162,7 @@ export default defineComponent({
       default: new Date(),
     },
     eventsDates: {
-      type: Array as PropType<Date[]>,
+      type: Array,
       default: () => ([]),
     },
     /** For usage of the component as a stand-alone component, outside Qalendar */

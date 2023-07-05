@@ -190,8 +190,8 @@ export default defineComponent({
     enhancedConfig(): configInterface {
       return {...this.config, isSmall: this.isSmall}
     },
-    eventsDates(): Date[] {
-      const dates = [];
+    eventsDates(): Array<string> {
+      const dates: any[] = [];
       this.events?.forEach(function (event) {
         dates.push(moment(event.time.start).format('YYYY-MM-DD'));
         dates.push(moment(event.time.end).format('YYYY-MM-DD'));
@@ -244,7 +244,7 @@ export default defineComponent({
   methods: {
     setStyleMode() {
       const osStyleMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light';
-      this.$refs.calendar_style_mode.style.colorScheme = this.config.styleMode ? this.config.styleMode : osStyleMode;
+      (this.$refs.calendar_style_mode as InstanceType<typeof HTMLElement>).style.colorScheme = this.config.styleMode ? this.config.styleMode : osStyleMode;
     },
     setConfigOnMount() {
       this.wasInitialized = 1;

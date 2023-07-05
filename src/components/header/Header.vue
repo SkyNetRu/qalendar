@@ -114,7 +114,7 @@ export default defineComponent({
       required: true,
     },
     eventsDates: {
-      type: Array as PropType<Date[]>,
+      type: Array,
       default: () => ([]),
     }
   },
