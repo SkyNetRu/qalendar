@@ -1,21 +1,21 @@
 {
-  "name": "qalendar",
+  "name": "@SkyNetRu/qalendar",
   "description": "Event calendar and date picker for Vue 3",
   "version": "3.4.0",
   "homepage": "https://tomosterlund.github.io/qalendar/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tomosterlund/qalendar"
+    "url": "https://github.com/SkyNetRu/qalendar"
   },
   "bugs": {
-    "url": "https://github.com/tomosterlund/qalendar/issues"
+    "url": "https://github.com/SkyNetRu/qalendar/issues"
   },
   "author": {
     "name": "Tom Osterlund"
   },
   "contributors": [
     {
-      "name": "NIkolai Demin",
+      "name": "Nikolai Demin",
       "url": "https://github.com/SkyNetRu",
       "email": "demin.nikolai@inbox.ru"
     }
