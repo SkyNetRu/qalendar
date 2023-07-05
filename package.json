@@ -15,9 +15,9 @@
   },
   "contributors": [
     {
-      "name": "Felix Scholze",
-      "url": "webshaped.de",
-      "email": "felix@webshaped.de"
+      "name": "NIkolai Demin",
+      "url": "https://github.com/SkyNetRu",
+      "email": "demin.nikolai@inbox.ru"
     }
   ],
   "engines": {
@@ -64,7 +64,9 @@
     "@fortawesome/free-regular-svg-icons": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
-    "perfect-scrollbar": "^1.5.5"
+    "moment": "^2.29.4",
+    "perfect-scrollbar": "^1.5.5",
+    "qalendar": "^3.4.0"
   },
   "devDependencies": {
     "@babel/types": "7.22.5",

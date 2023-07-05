@@ -6,8 +6,8 @@ import {DAY_MODE} from "../typings/interfaces/time-modes";
 
 export default class Helpers {
   /**
-   * If navigator.languages is present (correlating to the browser's Accept-Language header), then use it
-   * otherwise just use navigator.language
+   * If navigator. Languages are present (correlating to the browser's Accept-Language header), then use it
+   * otherwise just use navigator. Language
    * */
   static getBrowserNavigatorLocale(): string {
     if (typeof navigator !== "object") return "en-US";

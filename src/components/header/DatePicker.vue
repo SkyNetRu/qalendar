@@ -86,6 +86,7 @@
             'has-day': day,
             'is-today': time.dateIsToday(day),
             'is-disabled': checkIfDateIsDisabled(day),
+            'is-active': checkIfDateHasEvent(day),
           }"
           @click="!checkIfDateIsDisabled(day) ? setWeek(day) : null"
         >
@@ -126,6 +127,8 @@ import Time, {
 } from '../../helpers/Time';
 import { type periodInterface } from '../../typings/interfaces/period.interface';
 import { type modeType } from '../../typings/types';
+import { type eventInterface } from "../../typings/interfaces/event.interface";
+import moment from 'moment';
 
 interface disableDates {
   before: Date;
@@ -158,7 +161,10 @@ export default defineComponent({
       type: Date,
       default: new Date(),
     },
-
+    eventsDates: {
+      type: Array as PropType<Date[]>,
+      default: () => ([]),
+    },
     /** For usage of the component as a stand-alone component, outside Qalendar */
     locale: {
       type: String,
@@ -414,6 +420,10 @@ export default defineComponent({
 
       return date.getTime() > this.disableDates.after.getTime();
     },
+    checkIfDateHasEvent(date: Date) {
+      if (!this.eventsDates) return false;
+      return this.eventsDates.indexOf(moment(date).format('YYYY-MM-DD')) !== -1;
+    }
   },
 });
 </script>
@@ -603,12 +613,16 @@ export default defineComponent({
       font-size: var(--qalendar-font-xs);
 
       &.is-weekend {
-        color: gray;
+        color: rgb(255, 84, 86);
       }
 
       &.has-day {
         @include mixins.hover {
           background-color: var(--qalendar-option-hover);
+        }
+
+        &.is-active {
+          font-weight: 900;
         }
       }
 

@@ -25,6 +25,7 @@
       <DatePicker
         ref="periodSelect"
         :mode="mode"
+        :eventsDates="eventsDates"
         :time-prop="time"
         :period-prop="period"
         @updated="handlePeriodChange"
@@ -112,6 +113,10 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    eventsDates: {
+      type: Array as PropType<Date[]>,
+      default: () => ([]),
+    }
   },
 
   emits: ['change-mode', 'updated-period'],

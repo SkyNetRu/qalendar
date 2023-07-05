@@ -83,4 +83,6 @@ export interface configInterface {
   // from an implementer is strongly discouraged
   // TODO: create internal config interface and replace all usages in components with that
   isSmall?: boolean;
+
+  styleMode?: 'light' | 'dark';
 }

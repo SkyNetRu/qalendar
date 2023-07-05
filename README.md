@@ -9,28 +9,37 @@
 
 Event calendar for Vue 3.
 
+Original Component
+https://github.com/tomosterlund/qalendar
+
 ## Docs
 
-For documentation and demo, see: https://tomosterlund.github.io/qalendar/
+For original documentation and demo, see: https://tomosterlund.github.io/qalendar/
+
+Dark Or Light Mode can be defined in config
+Otherwise will be used OS theme mode
+
+```js
+config: {
+  ...
+  styleMode: 'light' | 'dark'
+  ...
+}
+```
+
+## Changes
+Days in DatePicker what have events has class .is_active and style Bold.
+
+
 
 ## Contact
 
 For bug reports and feature requests,
 please [open an issue](https://github.com/tomosterlund/qalendar/issues/new/choose) here on GitHub.
 
-For any other questions or comments, feel free to chat with us on
-Discord: https://discord.gg/Z6sTaTNADN
-
-## Sponsoring
-
-If you are benefiting from this library, and want to see it developed & maintained in the long
-run, please consider sponsoring.
-
-[Sponsor me today](https://github.com/sponsors/tomosterlund)
-
 ## License
 
 MIT
 
-Copyright (c) 2022-present, Tom Österlund
+Copyright (c) 2023-present, Nikolai Demin
 

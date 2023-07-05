@@ -1,106 +1,109 @@
 <template>
-  <div class="calendar-root-wrapper">
-    <div
-      class="calendar-root"
-      :class="{
-        'mode-is-day': mode === 'day',
-        'mode-is-week': mode === 'week',
-        'mode-is-month': mode === 'month',
-        'qalendar-is-small': isSmall,
-      }"
-      :data-lang="config?.locale?.substring(0, 2) || 'en'"
-    >
-      <Transition name="loading">
-        <div
-          v-if="isLoading"
-          class="top-bar-loader"
+  <div ref="calendar_style_mode">
+    <div class="calendar-root-wrapper">
+      <div
+        class="calendar-root"
+        :class="{
+          'mode-is-day': mode === 'day',
+          'mode-is-week': mode === 'week',
+          'mode-is-month': mode === 'month',
+          'qalendar-is-small': isSmall,
+        }"
+        :data-lang="config?.locale?.substring(0, 2) || 'en'"
+      >
+        <Transition name="loading">
+          <div
+            v-if="isLoading"
+            class="top-bar-loader"
+          />
+        </Transition>
+
+        <AppHeader
+          :key="wasInitialized + mode"
+          :config="config"
+          :eventsDates="eventsDates"
+          :mode="mode"
+          :time="time"
+          :period="period"
+          :is-small="isSmall"
+          @change-mode="handleChangeMode"
+          @updated-period="handleUpdatedPeriod"
         />
-      </Transition>
 
-      <AppHeader
-        :key="wasInitialized + mode"
-        :config="config"
-        :mode="mode"
-        :time="time"
-        :period="period"
-        :is-small="isSmall"
-        @change-mode="handleChangeMode"
-        @updated-period="handleUpdatedPeriod"
-      />
+        <Week
+          v-if="['week', 'day'].includes(mode)"
+          :key="period.start.getTime() + period.end.getTime() + eventRenderingKey"
+          :events-prop="eventsDataProperty"
+          :period="period"
+          :config="config"
+          :mode-prop="mode"
+          :time="time"
+          @event-was-clicked="$emit('event-was-clicked', $event)"
+          @event-was-resized="handleEventWasUpdated($event, 'resized')"
+          @event-was-dragged="handleEventWasUpdated($event, 'dragged')"
+          @edit-event="$emit('edit-event', $event)"
+          @delete-event="$emit('delete-event', $event)"
+          @interval-was-clicked="$emit('interval-was-clicked', $event)"
+          @day-was-clicked="$emit('day-was-clicked', $event)"
+          @datetime-was-clicked="$emit('datetime-was-clicked', $event)"
+        >
+          <template #weekDayEvent="p">
+            <slot
+              :event-data="p.eventData"
+              name="weekDayEvent"
+            />
+          </template>
 
-      <Week
-        v-if="['week', 'day'].includes(mode)"
-        :key="period.start.getTime() + period.end.getTime() + eventRenderingKey"
-        :events-prop="eventsDataProperty"
-        :period="period"
-        :config="config"
-        :mode-prop="mode"
-        :time="time"
-        @event-was-clicked="$emit('event-was-clicked', $event)"
-        @event-was-resized="handleEventWasUpdated($event, 'resized')"
-        @event-was-dragged="handleEventWasUpdated($event, 'dragged')"
-        @edit-event="$emit('edit-event', $event)"
-        @delete-event="$emit('delete-event', $event)"
-        @interval-was-clicked="$emit('interval-was-clicked', $event)"
-        @day-was-clicked="$emit('day-was-clicked', $event)"
-        @datetime-was-clicked="$emit('datetime-was-clicked', $event)"
-      >
-        <template #weekDayEvent="p">
-          <slot
-            :event-data="p.eventData"
-            name="weekDayEvent"
-          />
-        </template>
+          <template #eventDialog="p">
+            <slot
+              name="eventDialog"
+              :event-dialog-data="p.eventDialogData"
+              :close-event-dialog="p.closeEventDialog"
+            />
+          </template>
 
-        <template #eventDialog="p">
-          <slot
-            name="eventDialog"
-            :event-dialog-data="p.eventDialogData"
-            :close-event-dialog="p.closeEventDialog"
-          />
-        </template>
+          <template #customCurrentTime>
+            <slot name="customCurrentTime"/>
+          </template>
+        </Week>
 
-        <template #customCurrentTime>
-          <slot name="customCurrentTime" />
-        </template>
-      </Week>
+        <Month
+          v-if="mode === 'month'"
+          :key="period.start.getTime() + period.end.getTime() + eventRenderingKey"
+          :events-prop="eventsDataProperty"
+          :time="time"
+          :config="enhancedConfig"
+          :period="period"
+          @event-was-clicked="$emit('event-was-clicked', $event)"
+          @date-was-clicked="handleDateWasClicked"
+          @event-was-dragged="handleEventWasUpdated($event, 'dragged')"
+          @updated-period="handleUpdatedPeriod($event, true)"
+          @edit-event="$emit('edit-event', $event)"
+          @delete-event="$emit('delete-event', $event)"
+        >
+          <template #eventDialog="p">
+            <slot
+              name="eventDialog"
+              :event-dialog-data="p.eventDialogData"
+              :close-event-dialog="p.closeEventDialog"
+            />
+          </template>
 
-      <Month
-        v-if="mode === 'month'"
-        :key="period.start.getTime() + period.end.getTime() + eventRenderingKey"
-        :events-prop="eventsDataProperty"
-        :time="time"
-        :config="enhancedConfig"
-        :period="period"
-        @event-was-clicked="$emit('event-was-clicked', $event)"
-        @date-was-clicked="handleDateWasClicked"
-        @event-was-dragged="handleEventWasUpdated($event, 'dragged')"
-        @updated-period="handleUpdatedPeriod($event, true)"
-        @edit-event="$emit('edit-event', $event)"
-        @delete-event="$emit('delete-event', $event)"
-      >
-        <template #eventDialog="p">
-          <slot
-            name="eventDialog"
-            :event-dialog-data="p.eventDialogData"
-            :close-event-dialog="p.closeEventDialog"
-          />
-        </template>
+          <template #monthEvent="p">
+            <slot
+              :event-data="p.eventData"
+              name="monthEvent"
+            />
+          </template>
 
-        <template #monthEvent="p">
-          <slot
-            :event-data="p.eventData"
-            name="monthEvent"
-          />
-        </template>
-
-        <template #dayCell="{dayData}">
-          <slot
-            :day-data="dayData"
-            name="dayCell"
-          />
-        </template>
-      </Month>
+          <template #dayCell="{dayData}">
+            <slot
+              :day-data="dayData"
+              name="dayCell"
+            />
+          </template>
+        </Month>
+      </div>
     </div>
   </div>
 </template>
@@ -115,6 +118,7 @@ import Week from './components/week/Week.vue';
 import {type modeType} from './typings/types';
 import Month from './components/month/Month.vue';
 import Errors from './helpers/Errors';
+import moment from 'moment';
 
 export default defineComponent({
   name: 'Qalendar',
@@ -182,9 +186,18 @@ export default defineComponent({
       isSmall: false,
     };
   },
-  computed:{
+  computed: {
     enhancedConfig(): configInterface {
-      return { ...this.config, isSmall: this.isSmall }
+      return {...this.config, isSmall: this.isSmall}
+    },
+    eventsDates(): Date[] {
+      const dates = [];
+      this.events?.forEach(function (event) {
+        dates.push(moment(event.time.start).format('YYYY-MM-DD'));
+        dates.push(moment(event.time.end).format('YYYY-MM-DD'));
+      });
+
+      return Array.from(new Set(dates));
     }
   },
 
@@ -217,6 +230,7 @@ export default defineComponent({
   },
 
   mounted() {
+    this.setStyleMode();
     this.setConfigOnMount();
     this.onCalendarResize(); // Trigger once on mount, in order to set the correct mode, if viewing on a small screen
     this.setPeriodOnMount();
@@ -228,6 +242,10 @@ export default defineComponent({
   },
 
   methods: {
+    setStyleMode() {
+      const osStyleMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light';
+      this.$refs.calendar_style_mode.style.colorScheme = this.config.styleMode ? this.config.styleMode : osStyleMode;
+    },
     setConfigOnMount() {
       this.wasInitialized = 1;
     },
@@ -239,7 +257,7 @@ export default defineComponent({
       value: { start: Date; end: Date; selectedDate: Date },
       leaveMonthMode = false
     ) {
-      this.$emit('updated-period', { start: value.start, end: value.end });
+      this.$emit('updated-period', {start: value.start, end: value.end});
       this.period = value;
 
       if (leaveMonthMode) this.mode = this.isSmall ? 'day' : 'week';
@@ -276,7 +294,7 @@ export default defineComponent({
       }
 
       this.mode = payload;
-      this.$emit('updated-mode', { mode: payload, period: this.period });
+      this.$emit('updated-mode', {mode: payload, period: this.period});
     },
 
     onCalendarResize() {
@@ -389,10 +407,10 @@ export default defineComponent({
       left: 2px;
       background: rgb(38, 132, 255);
       background: linear-gradient(
-        90deg,
-        rgba(38, 132, 255, 1) 0%,
-        rgba(38, 132, 255, 0.5088410364145659) 48%,
-        rgba(38, 132, 255, 1) 100%
+          90deg,
+          rgba(38, 132, 255, 1) 0%,
+          rgba(38, 132, 255, 0.5088410364145659) 48%,
+          rgba(38, 132, 255, 1) 100%
       );
       animation: load 1.8s infinite;
       border-radius: 16px;

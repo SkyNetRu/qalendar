@@ -167,7 +167,8 @@ export default defineComponent({
         month: {
           // showTrailingAndLeadingDates: false,
           showEventsOnMobileView: true,
-        }
+        },
+        styleMode: 'light',
       } as configInterface,
       events: [] as eventInterface[],
 
@@ -176,7 +177,7 @@ export default defineComponent({
       eventDialogForm: {
         title: '',
         id: '',
-      },
+      }
     };
   },
 
