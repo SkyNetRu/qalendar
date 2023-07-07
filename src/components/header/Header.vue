@@ -25,7 +25,7 @@
       <DatePicker
         ref="periodSelect"
         :mode="mode"
-        :eventsDates="eventsDates"
+        :events-dates="eventsDates"
         :time-prop="time"
         :period-prop="period"
         @updated="handlePeriodChange"

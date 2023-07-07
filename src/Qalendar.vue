@@ -21,7 +21,7 @@
         <AppHeader
           :key="wasInitialized + mode"
           :config="config"
-          :eventsDates="eventsDates"
+          :events-dates="eventsDates"
           :mode="mode"
           :time="time"
           :period="period"
