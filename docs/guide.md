@@ -7,7 +7,7 @@ layout: doc
 ## Installing
 
 ```
-npm install qalendar
+npm install @skynetru/qalendar
 ```
 
 ## Basic usage
@@ -87,12 +87,12 @@ fixed `height`, and possibly a `max-width`.
 
 Dark mode is enabled in one out of two ways:
 1. User system preferences
-2. Set programmatically, by adding the inline style `style="color-scheme: dark"` to a parent element.
+2. Set programmatically, by adding in config param `styleMode` with value `dark`.
 
 ::: tip
 If the rest of your application does not have a dark mode, you might want to instruct
 Qalendar never switch to its own dark mode, even when user system settings tell it so. You can
-prevent this by wrapping it in an element with the inline style `style="color-scheme: light"`.
+prevent this by set in config param `styleMode` with value `light`.
 :::
 
 ## Basic configuration
@@ -133,7 +133,9 @@ data()
       defaultMode: 'day',
       // The silent flag can be added, to disable the development warnings. This will also bring a slight performance boost
       isSilent: true,
-      showCurrentTime: true, // Display a line indicating the current time 
+      showCurrentTime: true, // Display a line indicating the current time
+      //Theme style mode available options are 'light' and 'dark
+      styleMode: 'dark'
     }
   }
 }
@@ -146,7 +148,7 @@ data()
 | `selected-date` |                                                                             Date                                                                             |    Define which date to show on render    |
 |  `is-loading`   |                                                                           boolean                                                                            | Display a loading animation in the header |
 |    `events`     |                                            [see section "Calendar event properties"](#calendar-event-properties)                                             |                                           |
-|    `config`     | [see "configInterface"](https://github.com/tomosterlund/qalendar/blob/master/src/typings/config.interface.ts) or [basic configuration](#basic-configuration) |                                           |
+|    `config`     | [see "configInterface"](https://github.com/SkyNetRu/qalendar/blob/master/src/typings/config.interface.ts) or [basic configuration](#basic-configuration) |                                           |
 
 ### Calendar event properties
 
@@ -225,7 +227,7 @@ may not be translated in the selected locale. For all vocabulary where translati
 translations for "en-US" will be used as a fallback.
 
 If you're using Qalendar, and translations for your specific locale are missing, consider opening
-a [pull request](https://github.com/tomosterlund/qalendar), editing the two files
+a [pull request](https://github.com/SkyNetRu/qalendar), editing the two files
 in `./src/language`.
 
 ### A more elaborate example
@@ -319,7 +321,7 @@ export default {
 
 All events can be given the `color` property with any of the given object properties
 of `EVENT_COLORS`
-in [this file](https://github.com/tomosterlund/qalendar/blob/master/src/constants.ts). However, you
+in [this file](https://github.com/SkyNetRu/qalendar/blob/master/src/constants.ts). However, you
 can also pass further color schemes in the `config` object, which the events can then utilize, such
 as:
 
@@ -468,7 +470,7 @@ exposes some metadata about the day to the implementer, such as:
 ```
 
 The full interface of the data object that you can access `dayCell` is found here:
-https://github.com/tomosterlund/qalendar/blob/master/src/typings/interfaces/day.interface.ts
+https://github.com/SkyNetRu/qalendar/blob/master/src/typings/interfaces/day.interface.ts
 
 
 ## Intervals
@@ -595,7 +597,9 @@ The date picker from the Qalendar-header, can also be used as a stand-alone comp
     firstDayOfWeek="sunday"
     :disable-dates="disableDates"
     :default-date="new Date(2022, 5, 1)"
+    :events-dates="eventsDates"
     @updated="handleUpdate"
+    
   />
 </template>
 
@@ -612,6 +616,12 @@ export default {
         before: new Date(2022, 5, 1),
         after: new Date(2022, 5, 31),
       },
+      //Bold days in calendar for easy search event
+      eventsDates: [
+        '2022-06-01',
+        '2022-06-02',
+        '2022-06-10',
+      ]
     };
   },
 
@@ -629,6 +639,7 @@ export default {
   first-day-of-week="sunday"
   :disable-dates="{ before: new Date(2022, 5, 1), after: new Date(2022, 5, 31) }"
   :default-date="new Date(2022, 5, 1)"
+  :events-dates="['2022-06-01', '2022-06-02']"
 />
 
 The DatePicker component emits one event, `updated`, the payload of which can be spread into three
@@ -642,6 +653,7 @@ variables: `year`, `month` and `date`, see example above.
 | `first-day-of-week` |  `sunday` or `monday`  |   yes    |
 |   `default-date`    |          Date          |    no    |
 |   `disable-dates`   |    disableDatesType    |    no    |
+|   `events-dates`    |         Array          |    no    |
 
 ```ts
 type disableDatesType = {
