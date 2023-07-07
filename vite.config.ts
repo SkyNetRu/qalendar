@@ -27,6 +27,7 @@ export default defineConfig({
   test: {
     include: ["**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     environment: "jsdom",
+    setupFiles: path.resolve(__dirname, "tests/setup.ts"),
     coverage: {
       provider: 'c8',
       reporter: ['lcov', 'text-summary'],

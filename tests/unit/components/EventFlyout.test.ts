@@ -2,14 +2,15 @@ import EventFlyout from '../../../src/components/partials/EventFlyout.vue'
 import {describe, expect, test} from 'vitest';
 import {mountComponent} from '../../vitest-setup';
 import {mount} from '@vue/test-utils';
-import Time from '../../../src/helpers/Time';
+import Time, {WEEK_START_DAY} from '../../../src/helpers/Time';
 import unidecode from 'unidecode';
+
 const eventFlyout = mountComponent(mount, EventFlyout)
 
 describe('EventFlyout.vue', () => {
   const propsForAllTests = {
     config: {},
-    time: new Time('sunday', 'en-US'),
+    time: new Time(WEEK_START_DAY.MONDAY, 'en-US'),
   }
 
   test('Displaying a span of 2 dates, for full day events spanning over a period', () => {
